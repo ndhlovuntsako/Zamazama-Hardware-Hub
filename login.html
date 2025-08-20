@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - BuildMart</title>
+  <style>
+    body { display:flex; justify-content:center; align-items:center; height:100vh; font-family:Arial; background:#f5f5f5; }
+    .box { background:white; padding:2rem; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.2); width:300px; text-align:center; }
+    input { width:90%; padding:0.6rem; margin:0.5rem 0; }
+    button { margin-top:1rem; padding:0.6rem 1.2rem; background:#00796b; border:none; border-radius:5px; font-weight:bold; color:white; cursor:pointer; }
+    button:hover { background:#005f4f; }
+    a { display:block; margin-top:1rem; color:#00796b; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 id="title">Login</h2>
+    <input type="text" id="user" placeholder="Username"/>
+    <input type="password" id="pass" placeholder="Password"/>
+    <button onclick="submitAuth()">Submit</button>
+    <a href="#" onclick="switchAuth()">Switch to Register</a>
+  </div>
+
+  <script>
+    let mode = "login";
+
+    function switchAuth() {
+      mode = mode === "login" ? "register" : "login";
+      document.getElementById("title").textContent = mode === "login" ? "Login" : "Register";
+    }
+
+    function submitAuth() {
+      let username = document.getElementById("user").value.trim();
+      let password = document.getElementById("pass").value.trim();
+      if (!username || !password) { alert("Fill in both fields."); return; }
+
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+
+      if (mode === "register") {
+        if (users[username]) { alert("User exists!"); return; }
+        users[username] = { password, orders: [] };
+        localStorage.setItem("users", JSON.stringify(users));
+        alert("Registered! Now login.");
+        switchAuth();
+      } else {
+        if (users[username] && users[username].password === password) {
+          localStorage.setItem("currentUser", username);
+          window.location.href="index.html";
+        } else {
+          alert("Invalid login.");
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZAMAZAMA Hardware</title>
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#f5f5f5; }
+    header { background:#6f0079; color:white; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+    nav a { color:white; margin:0 0.8rem; text-decoration:none; font-weight:bold; }
+    nav a:hover { text-decoration:underline; }
+    section { padding:2rem; max-width:1100px; margin:auto; }
+    h2 { color:#79006f; margin-bottom:1rem; }
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }
+    .card { background:white; padding:1rem; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:center; }
+    .card img { width:100%; border-radius:5px; }
+    .price { font-weight:bold; color:#00796b; margin:0.5rem 0; }
+    button { background:#ecdbc0; border:none; padding:0.6rem 1.2rem; border-radius:5px; font-weight:bold; cursor:pointer; }
+    button:hover { background:#e68900; }
+    footer { text-align:center; background:#570079; color:white; padding:1rem; margin-top:2rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ZAMAZAMA</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="order.html">View Order</a>
+      <a href="login.html" id="authLink">Login</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Products</h2>
+    <div class="products">
+      <div class="card">
+        <img src="images (9).jpeg" alt="Screwdrive set">
+        <h3>Screwdrive set</h3>
+        <p class="price">R1120.00</p>
+        <button onclick="addToOrder('Screwdrive', 120)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="images (11).jpeg" alt="Bricks">
+        <h3>Clay Bricks (1000)</h3>
+        <p class="price">R1900.00</p>
+        <button onclick="addToOrder('Clay Bricks (1000)', 1900)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="images (12).jpeg" alt="Roof">
+        <h3>Roof Sheet 3m</h3>
+        <p class="price">R350.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="images (6).jpeg" alt="Drill">
+        <h3>Eletrical drill</h3>
+        <p class="price">R4350.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="OIP (1).webp" alt="Helment">
+        <h3>Helment</h3>
+        <p class="price">R350.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="OIP (2).webp" alt="Gloves">
+        <h3>Work Gloves</h3>
+        <p class="price">R550.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="IMG-20250813-WA0018.jpg" alt="Frame window">
+        <h3>Frame window</h3>
+        <p class="price">R1200.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+      <div class="card">
+        <img src="IMG-20250813-WA0019.jpg" alt="JOJO">
+        <h3>JOJO</h3>
+        <p class="price">R5550.00</p>
+        <button onclick="addToOrder('Roof Sheet 3m', 350)">Add to Order</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; <span id="year"></span> ZAMAZAMA. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function addToOrder(product, price) {
+      const current = localStorage.getItem("currentUser");
+      if (!current) { alert("Please login first."); return; }
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+      users[current].orders.push({ product, price });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert(product + " added to order.");
+    }
+
+    // Update login/logout link
+    const current = localStorage.getItem("currentUser");
+    if (current) {
+      document.getElementById("authLink").textContent = "Logout";
+      document.getElementById("authLink").onclick = () => {
+        localStorage.removeItem("currentUser");
+        location.reload();
+      };
+    }
+  </script>
+</body>
+</html>
